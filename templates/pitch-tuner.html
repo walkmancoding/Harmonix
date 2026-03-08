@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonix - Pitch Tuner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include '_navbar.html' %}
+    <div class="container">
+        <div class="page-header">
+            <div class="page-header-text">
+                <h1>Pitch Tuner</h1>
+                <p>High-precision instrument tuner with visual feedback</p>
+            </div>
+            <div class="page-header-illustration">
+                <div class="illustration-tuner">
+                    <div class="tuner-needle"></div>
+                    <div class="tuner-dial"></div>
+                    <div class="tuner-status-light"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Pitch Tuner Section -->
+        <div class="pitch-tuner-container">
+            <div class="tuner-display">
+                <div class="note-display">
+                    <div class="detected-note">--</div>
+                    <div class="cents-display">
+                        <div class="cents-bar">
+                            <div class="cents-indicator"></div>
+                            <div class="cents-center-mark"></div>
+                        </div>
+                        <div class="cents-value">0¢</div>
+                    </div>
+                </div>
+                <div class="frequency-display">
+                    <span id="frequencyValue">0.0</span>
+                    <span class="hz-text">Hz</span>
+                </div>
+            </div>
+            
+            <div class="tuner-controls">
+                <div class="reference-pitch">
+                    <label for="referencePitch">Reference A4 (Hz):</label>
+                    <div class="reference-controls">
+                        <button id="decreaseReference" class="reference-btn"><i class="fas fa-minus"></i></button>
+                        <input type="number" id="referencePitch" value="440" min="420" max="460" step="1" class="reference-input">
+                        <button id="increaseReference" class="reference-btn"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                
+                <div class="instrument-selector">
+                    <label for="instrument">Instrument:</label>
+                    <select id="instrument" class="select-control">
+                        <option value="guitar">Guitar</option>
+                        <option value="bass">Bass</option>
+                        <option value="ukulele">Ukulele</option>
+                        <option value="violin">Violin</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                
+                <div class="recording-controls">
+                    <button id="startRecording" class="control-btn record"><i class="fas fa-microphone"></i> Start Recording</button>
+                </div>
+            </div>
+            
+            <div class="string-tuner">
+                <h3>String Tuner</h3>
+                <div class="strings-container">
+                    <div class="string-item" data-note="E2">
+                        <div class="string-note">E</div>
+                        <div class="string-status"></div>
+                    </div>
+                    <div class="string-item" data-note="A2">
+                        <div class="string-note">A</div>
+                        <div class="string-status"></div>
+                    </div>
+                    <div class="string-item" data-note="D3">
+                        <div class="string-note">D</div>
+                        <div class="string-status"></div>
+                    </div>
+                    <div class="string-item" data-note="G3">
+                        <div class="string-note">G</div>
+                        <div class="string-status"></div>
+                    </div>
+                    <div class="string-item" data-note="B3">
+                        <div class="string-note">B</div>
+                        <div class="string-status"></div>
+                    </div>
+                    <div class="string-item" data-note="E4">
+                        <div class="string-note">E</div>
+                        <div class="string-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            © 2025 Harmonix Music Software. All rights reserved.
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/pitch-tuner.js') }}"></script>
+    {% include '_mood_assistant.html' %}
+</body>
+</html>

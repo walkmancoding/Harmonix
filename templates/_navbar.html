@@ -1,0 +1,39 @@
+<header class="site-header">
+    <a href="{{ url_for('index') }}" class="site-logo-link">
+        <img src="{{ url_for('static', filename='images/harmonix-logo.png') }}" alt="Harmonix" class="site-logo">
+    </a>
+    <nav class="site-nav-right">
+        <a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}"><i class="fas fa-home"></i> Home</a>
+        <div class="nav-dropdown">
+            <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+                <i class="fas fa-th-large"></i> Modules <i class="fas fa-chevron-down nav-chevron"></i>
+            </button>
+            <div class="nav-dropdown-menu">
+                <a href="{{ url_for('index') }}"><i class="fas fa-music"></i> Genre Classifier</a>
+                <a href="{{ url_for('rhythm_detector') }}"><i class="fas fa-wave-square"></i> Rhythm Detector</a>
+                <a href="{{ url_for('metronome') }}"><i class="fas fa-drum"></i> Metronome</a>
+                <a href="{{ url_for('pitch_detector') }}"><i class="fas fa-microphone"></i> Pitch Tuner</a>
+                <a href="{{ url_for('scale_finder') }}"><i class="fas fa-search"></i> Scale Finder</a>
+                <a href="{{ url_for('chord_tracker') }}"><i class="fas fa-guitar"></i> Chord Tracker</a>
+            </div>
+        </div>
+        <a href="{{ url_for('blog') }}" class="nav-link {% if request.endpoint == 'blog' %}active{% endif %}"><i class="fas fa-blog"></i> Blog</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}"><i class="fas fa-history"></i> History</a>
+            <a href="{{ url_for('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+    </nav>
+</header>
+<script>
+(function() {
+    var dropdown = document.querySelector('.nav-dropdown');
+    if (!dropdown) return;
+    var trigger = dropdown.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click', function() { dropdown.classList.toggle('open'); });
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
+    });
+})();
+</script>

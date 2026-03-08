@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chord Tracker - Harmonix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .submit-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .chord-list {
+            list-style: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .chord-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .chord-name {
+            font-weight: bold;
+            color: #00cec9;
+        }
+        .chord-time {
+            color: #dfe6e9;
+        }
+    </style>
+</head>
+<body>
+    {% include '_navbar.html' %}
+    <div class="container">
+        <div class="page-header">
+            <div class="page-header-text">
+                <h1>Chord Tracker</h1>
+                <p>Extract and visualize chord progressions</p>
+            </div>
+            <div class="page-header-illustration">
+                <div class="illustration-chords">
+                    <div class="chord-box"></div>
+                    <div class="chord-box"></div>
+                    <div class="chord-box"></div>
+                    <div class="chord-connector"></div>
+                </div>
+            </div>
+        </div>
+        <form id="chordForm" enctype="multipart/form-data">
+            <div class="file-upload">
+                <input type="file" id="audioFile" name="audio_file" accept=".wav,.mp3,.flac,.ogg,.m4a" style="display: none;">
+                <label for="audioFile" class="upload-btn">Choose Audio File</label>
+                <p>Supported formats: WAV, MP3, FLAC, OGG, M4A</p>
+                <div id="fileSelected" style="display: none;">
+                    <p>Selected file: <span id="fileName"></span></p>
+                </div>
+            </div>
+            
+            <div id="analyzeBtnContainer" style="display: none; text-align: center; margin-top: 20px;">
+                <button type="submit" class="submit-btn">Track Chords</button>
+            </div>
+        </form>
+        
+        <div id="loadingSpinner" style="display: none; text-align: center; margin: 30px 0;">
+            <div class="spinner"></div>
+            <p>Tracking chords...</p>
+        </div>
+        
+        <div id="errorBox" class="error-box" style="display: none; background: rgba(255, 0, 0, 0.2); padding: 15px; border-radius: 8px; color: #ff7675; text-align: center; margin-top: 20px;"></div>
+        
+        <div id="resultSection" style="display: none; margin-top: 30px;">
+            <div class="prediction-card">
+                <div class="card-header">Chord Progression</div>
+                <div class="card-body">
+                    <ul id="chordList" class="chord-list">
+                        <!-- Chords will be populated here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2025 Sigmoid Innovations.
+        </div>
+    </div>
+    
+    <script>
+        const fileInput = document.getElementById('audioFile');
+        const fileSelected = document.getElementById('fileSelected');
+        const fileName = document.getElementById('fileName');
+        const analyzeBtnContainer = document.getElementById('analyzeBtnContainer');
+        const form = document.getElementById('chordForm');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const resultSection = document.getElementById('resultSection');
+        const errorBox = document.getElementById('errorBox');
+        const chordList = document.getElementById('chordList');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileSelected.style.display = 'block';
+                fileName.textContent = this.files[0].name;
+                analyzeBtnContainer.style.display = 'block';
+            }
+        });
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            loadingSpinner.style.display = 'block';
+            resultSection.style.display = 'none';
+            errorBox.style.display = 'none';
+            chordList.innerHTML = '';
+            
+            fetch('/analyze-chords', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingSpinner.style.display = 'none';
+                if (data.error) {
+                    errorBox.textContent = data.error;
+                    errorBox.style.display = 'block';
+                } else {
+                    if (data.chords.length === 0) {
+                        chordList.innerHTML = '<li>No chords detected</li>';
+                    } else {
+                        data.chords.forEach(chord => {
+                            const li = document.createElement('li');
+                            li.className = 'chord-item';
+                            li.innerHTML = `
+                                <span class="chord-name">${chord.chord}</span>
+                                <span class="chord-time">${chord.start}s - ${chord.end}s</span>
+                            `;
+                            chordList.appendChild(li);
+                        });
+                    }
+                    resultSection.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                loadingSpinner.style.display = 'none';
+                errorBox.textContent = 'An error occurred during analysis.';
+                errorBox.style.display = 'block';
+                console.error(error);
+            });
+        });
+    </script>
+    {% include '_mood_assistant.html' %}
+</body>
+</html>

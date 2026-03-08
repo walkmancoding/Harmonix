@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Harmonix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include '_navbar.html' %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Blog</h1>
+            <p>Tips, updates, and ideas for music &amp; mood</p>
+        </div>
+        <div class="hero-section" style="margin-top: 20px;">
+            <div class="hero-text">
+                <p class="hero-subtitle">
+                    Welcome to the Harmonix blog. Here we’ll share short reads on using our tools, music and mood, and product updates. Check back soon for new posts.
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            © 2025 Sigmoid Innovations. Mentored by Prof. Subhabrata Sengupta, Prof. Dr. Rupayan Das
+        </div>
+    </div>
+    {% include '_mood_assistant.html' %}
+</body>
+</html>

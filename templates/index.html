@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include '_navbar.html' %}
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section hero-home">
+            <div class="hero-text">
+                <div class="hero-highlight">
+                    <i class="fas fa-wave-square"></i>
+                    AI music tools for your practice, production &amp; creativity
+                </div>
+                <h1 class="hero-title">Music Genre Classification</h1>
+                <p class="hero-subtitle">
+                    Upload a track, trim the perfect snippet, and let Harmonix analyze its genre distribution with studio‑grade visualizations. Use the <strong>Modules</strong> menu above to open Metronome, Scale Finder, Rhythm Detector, and more.
+                </p>
+                <div class="hero-chip-row">
+                    <span class="hero-chip">Real‑time trimming</span>
+                    <span class="hero-chip">Probabilistic genre chart</span>
+                    <span class="hero-chip">History for logged‑in users</span>
+                </div>
+            </div>
+            <div class="hero-illustration">
+                <div class="illustration-genre">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="ai-brain"><i class="fas fa-brain"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Upload Section -->
+        <form id="audioForm" enctype="multipart/form-data">
+            <div class="file-upload">
+                <input type="file" id="audioFile" name="audio_file" accept=".wav,.mp3,.flac,.ogg,.m4a" style="display: none;">
+                <label for="audioFile" class="upload-btn">Choose Audio File</label>
+                <p>Supported formats: WAV, MP3, FLAC, OGG, M4A</p>
+                <div id="fileSelected" style="display: none;">
+                    <p>Selected file: <span id="fileName"></span></p>
+                </div>
+            </div>
+            
+            <!-- Audio Controls (initially hidden) -->
+            <div id="audioControls" class="audio-controls" style="display: none;">
+                <h3>Audio Trimming & Preview</h3>
+                
+                <div class="slider-container">
+                    <label>Start time: <span id="startTimeValue">0.0</span> seconds</label>
+                    <input type="range" id="startTime" class="slider" min="0" max="30" step="0.1" value="0">
+                </div>
+                
+                <div class="slider-container">
+                    <label>End time: <span id="endTimeValue">30.0</span> seconds</label>
+                    <input type="range" id="endTime" class="slider" min="0" max="30" step="0.1" value="30">
+                </div>
+                
+                <audio id="audioPlayer" controls style="width: 100%; margin-top: 15px;"></audio>
+                
+                <button type="submit" class="submit-btn">Analyze Genre</button>
+            </div>
+        </form>
+        
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" style="display: none; text-align: center; margin: 30px 0;">
+            <div class="spinner"></div>
+            <p>Analyzing audio and predicting genre...</p>
+        </div>
+        
+        <!-- Error Box -->
+        <div id="errorBox" class="error-box" style="display: none;"></div>
+        
+        <!-- Prediction Section -->
+        <div id="predictionSection" style="display: none;">
+            <div class="prediction-card">
+                <div class="card-header">Predicted Genre</div>
+                <div class="card-body">
+                    <span id="predictedGenre" class="genre-text">ROCK</span>
+                </div>
+            </div>
+            
+            <h3>Genre Probability Distribution</h3>
+            <div id="chartContainer" style="height: 400px; margin-top: 20px;">
+                <canvas id="genreChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            © 2025 Sigmoid Innovations. Mentored by Prof. Subhabrata Sengupta, Prof. Dr. Rupayan Das
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% include '_mood_assistant.html' %}
+</body>
+</html>

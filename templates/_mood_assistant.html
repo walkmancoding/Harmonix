@@ -1,0 +1,59 @@
+<div class="mood-assistant">
+    <button id="moodAssistantToggle" class="mood-assistant-toggle" aria-label="Open mood assistant">
+        <i class="fas fa-headphones"></i>
+    </button>
+    <div id="moodAssistantPanel" class="mood-assistant-panel" aria-live="polite">
+        <div class="mood-assistant-header">
+            <div class="mood-assistant-header-left">
+                <div class="mood-assistant-title">Harmonix Mood Guide</div>
+                <div class="mood-assistant-subtitle">Tell me how you feel &amp; I’ll bring the music.</div>
+            </div>
+            <div class="mood-assistant-status-dot" title="Online"></div>
+        </div>
+        <div class="mood-assistant-body">
+            <div id="moodAssistantMessages" class="mood-assistant-messages">
+                <div class="mood-assistant-message assistant">
+                    Hey, I’m your mood companion. Share how you’re feeling and I’ll suggest songs, albums, or instrumentals to help you regulate.
+                </div>
+            </div>
+            <div class="mood-assistant-badge-row">
+                <button class="mood-assistant-badge" data-mood="stressed">
+                    <i class="fas fa-burn"></i> Stressed
+                </button>
+                <button class="mood-assistant-badge" data-mood="sad">
+                    <i class="fas fa-cloud-rain"></i> Low / Sad
+                </button>
+                <button class="mood-assistant-badge" data-mood="anxious">
+                    <i class="fas fa-heartbeat"></i> Anxious
+                </button>
+                <button class="mood-assistant-badge" data-mood="tired">
+                    <i class="fas fa-moon"></i> Drained
+                </button>
+                <button class="mood-assistant-badge" data-mood="happy">
+                    <i class="fas fa-sun"></i> Happy
+                </button>
+                <button class="mood-assistant-badge" data-mood="focus">
+                    <i class="fas fa-brain"></i> Need Focus
+                </button>
+            </div>
+            <div class="mood-assistant-input-row">
+                <input
+                    id="moodAssistantInput"
+                    class="mood-assistant-input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Type how you feel right now..."
+                >
+                <button id="moodAssistantSend" class="mood-assistant-send" aria-label="Send mood message">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </div>
+            <div class="mood-assistant-footer-note">
+                Suggestions are curated heuristics and not a substitute for professional mental health support.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+

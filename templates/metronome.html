@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonix - Metronome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include '_navbar.html' %}
+    <div class="container">
+        <div class="page-header">
+            <div class="page-header-text">
+                <h1>Metronome</h1>
+                <p>Professional beat keeper for musicians</p>
+            </div>
+            <div class="page-header-illustration">
+                <div class="illustration-metronome">
+                    <div class="metronome-pendulum"></div>
+                    <div class="metronome-base"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Metronome Section -->
+        <div class="metronome-container">
+            <div class="metronome-display">
+                <div class="tempo-display">
+                    <span id="tempoValue">120</span>
+                    <span class="bpm-text">BPM</span>
+                </div>
+                <div class="beat-indicator">
+                    <div class="beat active"></div>
+                    <div class="beat"></div>
+                    <div class="beat"></div>
+                    <div class="beat"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="tempo-slider">
+                    <input type="range" id="tempoSlider" min="40" max="240" value="120" class="slider">
+                </div>
+                
+                <div class="tempo-buttons">
+                    <button id="decreaseTempo" class="tempo-btn"><i class="fas fa-minus"></i></button>
+                    <button id="increaseTempo" class="tempo-btn"><i class="fas fa-plus"></i></button>
+                </div>
+                
+                <div class="time-signature">
+                    <label for="beatsPerMeasure">Beats:</label>
+                    <select id="beatsPerMeasure" class="select-control">
+                        <option value="2">2/4</option>
+                        <option value="3">3/4</option>
+                        <option value="4" selected>4/4</option>
+                        <option value="5">5/4</option>
+                        <option value="6">6/8</option>
+                        <option value="7">7/8</option>
+                    </select>
+                </div>
+                
+                <div class="playback-controls">
+                    <button id="startStop" class="control-btn play"><i class="fas fa-play"></i></button>
+                    <button id="tap" class="control-btn">TAP</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            © 2025 Harmonix Music Software. All rights reserved.
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/metronome.js') }}"></script>
+    {% include '_mood_assistant.html' %}
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Harmonix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            background:
+                radial-gradient(circle at top left, rgba(255, 215, 0, 0.06), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(74, 20, 140, 0.7), #121212);
+            background-size: 160% 160%;
+            animation: loginGradientShift 18s ease-in-out infinite;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .login-page::before,
+        .login-page::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.22), transparent 60%);
+            filter: blur(2px);
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .login-page::before {
+            width: 420px;
+            height: 420px;
+            top: -80px;
+            right: -120px;
+            animation: floatOrbOne 22s ease-in-out infinite alternate;
+        }
+
+        .login-page::after {
+            width: 520px;
+            height: 520px;
+            bottom: -120px;
+            left: -160px;
+            background: radial-gradient(circle at 40% 40%, rgba(49, 27, 146, 0.75), transparent 60%);
+            animation: floatOrbTwo 26s ease-in-out infinite alternate;
+        }
+
+        .auth-container {
+            max-width: 380px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 18px 20px 16px;
+            background: rgba(18, 18, 18, 0.92);
+            border-radius: 18px;
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.9);
+            box-sizing: border-box;
+        }
+        .auth-heading {
+            text-align: center;
+            color: #FFD700;
+            margin-bottom: 4px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .auth-subtitle {
+            text-align: center;
+            color: #E0E0E0;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.9);
+            box-sizing: border-box;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background: #5b4cc4;
+        }
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            color: white;
+        }
+        .alert-danger { background-color: rgba(255, 118, 117, 0.95); }
+        .alert-success { background-color: rgba(0, 184, 148, 0.95); }
+
+        .login-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .login-logo {
+            max-width: 120px;
+            height: auto;
+        }
+
+        .login-pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(49, 27, 146, 0.95);
+            color: #E0E0E0;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .login-footer-copy {
+            text-align: center;
+            margin-top: 10px;
+            color: #BDBDBD;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 14px 16px 12px;
+                border-radius: 12px;
+            }
+            .auth-heading {
+                font-size: 1.1rem;
+            }
+            .login-logo {
+                max-width: 100px;
+            }
+        }
+
+        @keyframes loginGradientShift {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        @keyframes floatOrbOne {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(-40px, 40px, 0) scale(1.08); }
+        }
+
+        @keyframes floatOrbTwo {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(60px, -40px, 0) scale(0.96); }
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="container">
+        <div class="auth-container">
+            <div class="login-top-bar">
+                <img src="{{ url_for('static', filename='images/harmonix-logo.png') }}" alt="Harmonix Logo" class="login-logo">
+                <span class="login-pill">Mood‑aware music tools</span>
+            </div>
+            <h1 class="auth-heading">Welcome back to Harmonix</h1>
+            <p class="auth-subtitle">
+                Log in to access genre analysis, rhythm tools, tuners, and your personal activity history.
+            </p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            <form method="POST" action="">
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 10px; color: white; font-size: 0.9rem;">
+                Don't have an account? <a href="{{ url_for('register') }}" style="color: #a29bfe;">Register</a>
+            </p>
+            <div class="login-footer-copy">
+                After login you’ll drop straight into the main Harmonix workspace.
+            </div>
+        </div>
+    </div>
+    {% include '_mood_assistant.html' %}
+</body>
+</html>
